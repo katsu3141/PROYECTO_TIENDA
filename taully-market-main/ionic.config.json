@@ -1,0 +1,7 @@
+{
+  "name": "taully-market",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

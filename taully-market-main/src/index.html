@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Taully Market</title>
+
+  <base href="/" />
+
+  <meta name="color-scheme" content="light dark" />
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <!-- 🆕 CRÍTICO: Cargar jeep-sqlite desde CDN antes que todo -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@jeep-sqlite/jeep-sqlite@2.8.3/dist/jeep-sqlite/jeep-sqlite.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@jeep-sqlite/jeep-sqlite@2.8.3/dist/jeep-sqlite/jeep-sqlite.js"></script>
+  
+  <!-- App Initialization -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+</head>
+
+<body>
+  <app-root></app-root>
+  
+  <!-- 🆕 Elemento jeep-sqlite para web -->
+  <jeep-sqlite></jeep-sqlite>
+</body>
+
+</html>

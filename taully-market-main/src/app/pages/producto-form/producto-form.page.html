@@ -1,0 +1,207 @@
+<!-- src/app/pages/producto-form/producto-form.page.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/productos"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ modoEdicion ? 'Editar Producto' : 'Nuevo Producto' }}</ion-title>
+  </ion-toolbar>
+  
+  <ion-progress-bar 
+    *ngIf="cargandoImagen" 
+    [value]="progresoImagen"
+    color="secondary">
+  </ion-progress-bar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    
+    <div class="page-header">
+      <div class="header-icon">
+        <ion-icon name="cube-outline"></ion-icon>
+      </div>
+      <h1>{{ modoEdicion ? 'Editar Producto' : 'Nuevo Producto' }}</h1>
+      <p>{{ modoEdicion ? 'Actualiza la información del producto' : 'Completa los datos del nuevo producto' }}</p>
+    </div>
+
+    <div class="form-container">
+      <form>
+        
+        <div class="form-section">
+          <div class="section-header">
+            <ion-icon name="image-outline"></ion-icon>
+            <h2>Imagen del Producto <span class="optional">(Opcional)</span></h2>
+          </div>
+          
+          <div class="image-preview-container">
+            <div class="image-preview" *ngIf="producto.tieneImagen && producto.imagen && !cargandoImagen">
+              <img 
+                [src]="producto.imagen" 
+                alt="Vista previa del producto"
+                loading="lazy">
+              <button 
+                type="button"
+                class="btn-remove-image" 
+                (click)="eliminarImagen()"
+                [disabled]="cargandoImagen"
+                title="Eliminar imagen">
+                <ion-icon name="trash-outline"></ion-icon>
+              </button>
+            </div>
+
+            <div class="image-placeholder" *ngIf="!producto.tieneImagen && !cargandoImagen">
+              <ion-icon name="image-outline"></ion-icon>
+              <p>Sin imagen</p>
+              <small>Imagen opcional del producto</small>
+            </div>
+            
+            <div class="image-loading" *ngIf="cargandoImagen">
+              <ion-spinner name="crescent" color="primary"></ion-spinner>
+              <p>Procesando imagen...</p>
+              <small>Por favor espera</small>
+            </div>
+          </div>
+
+          <button 
+            type="button"
+            class="btn btn-secondary"
+            (click)="abrirOpcionesImagen()"
+            [disabled]="cargandoImagen">
+            <ion-spinner *ngIf="cargandoImagen" name="crescent"></ion-spinner>
+            <ion-icon *ngIf="!cargandoImagen" name="camera-outline"></ion-icon>
+            <span *ngIf="!cargandoImagen">
+              {{ producto.tieneImagen ? 'Cambiar Imagen' : 'Agregar Imagen' }}
+            </span>
+            <span *ngIf="cargandoImagen">Procesando...</span>
+          </button>
+          
+          <div class="info-message" *ngIf="producto.tieneImagen">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>Imagen optimizada automáticamente</span>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-header">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <h2>Información Básica</h2>
+          </div>
+          
+          <div class="input-wrapper">
+            <label class="input-label">
+              Nombre del producto <span class="required">*</span>
+            </label>
+            <input
+              [(ngModel)]="producto.nombre"
+              name="nombre"
+              type="text"
+              class="form-input"
+              placeholder="Ej: Leche Gloria 1L"
+              required />
+          </div>
+
+          <div class="input-wrapper">
+            <label class="input-label">
+              Categoría <span class="required">*</span>
+            </label>
+            <select
+              [(ngModel)]="producto.categoria"
+              name="categoria"
+              class="form-select"
+              required>
+              <option value="" disabled>Selecciona una categoría</option>
+              <option *ngFor="let cat of categorias" [value]="cat">
+                {{ cat }}
+              </option>
+            </select>
+          </div>
+
+          <div class="input-wrapper">
+            <label class="input-label">
+              Descripción <span class="optional">(Opcional)</span>
+            </label>
+            <textarea
+              [(ngModel)]="producto.descripcion"
+              name="descripcion"
+              class="form-textarea"
+              rows="3"
+              placeholder="Descripción detallada del producto"></textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="section-header">
+            <ion-icon name="calculator-outline"></ion-icon>
+            <h2>Precio y Stock</h2>
+          </div>
+          
+          <div class="input-grid">
+            <div class="input-wrapper">
+              <label class="input-label">
+                Precio (S/) <span class="required">*</span>
+              </label>
+              <div class="input-with-icon">
+                <span class="input-icon">S/</span>
+                <input
+                  [(ngModel)]="producto.precio"
+                  name="precio"
+                  type="number"
+                  class="form-input with-icon"
+                  placeholder="0.00"
+                  min="0"
+                  step="0.01"
+                  required />
+              </div>
+            </div>
+
+            <div class="input-wrapper">
+              <label class="input-label">
+                Stock <span class="required">*</span>
+              </label>
+              <div class="input-with-icon">
+                <span class="input-icon">
+                  <ion-icon name="cube-outline"></ion-icon>
+                </span>
+                <input
+                  [(ngModel)]="producto.stock"
+                  name="stock"
+                  type="number"
+                  class="form-input with-icon"
+                  placeholder="0"
+                  min="0"
+                  required />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="button"
+            (click)="guardarProducto()"
+            class="btn btn-primary"
+            [disabled]="cargandoImagen">
+            <ion-icon name="save-outline"></ion-icon>
+            <span>{{ modoEdicion ? 'Actualizar' : 'Guardar' }}</span>
+          </button>
+
+          <button 
+            type="button"
+            (click)="cancelar()"
+            class="btn btn-secondary">
+            <ion-icon name="close-outline"></ion-icon>
+            <span>Cancelar</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <ion-action-sheet
+    [isOpen]="mostrarOpcionesImagen"
+    header="Seleccionar imagen"
+    [buttons]="botonesImagen"
+    (didDismiss)="mostrarOpcionesImagen = false">
+  </ion-action-sheet>
+</ion-content>

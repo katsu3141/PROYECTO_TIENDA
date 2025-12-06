@@ -1,0 +1,255 @@
+<!-- src/app/pages/productos-lista/productos-lista.page.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title">
+        <ion-icon name="cube-outline"></ion-icon>
+        Catálogo de Productos
+      </div>
+    </ion-title>
+    <!-- ELIMINADO: Botón de agregar en header -->
+  </ion-toolbar>
+  
+  <!-- Barra de búsqueda -->
+  <ion-toolbar class="search-toolbar">
+    <ion-searchbar 
+      [(ngModel)]="terminoBusqueda"
+      (ionInput)="buscarProductos()"
+      placeholder="Buscar productos..." 
+      animated="true"
+      mode="ios"
+      debounce="300">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- Top Bar con Estadísticas y Controles -->
+  <div class="top-bar" *ngIf="productosFiltrados.length > 0 || terminoBusqueda">
+    <div class="stats-section">
+      <div class="stat-item">
+        <div class="stat-icon primary">
+          <ion-icon name="cube-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ productosFiltrados.length }}</span>
+          <span class="stat-label">Productos</span>
+        </div>
+      </div>
+      
+      <div class="stat-item">
+        <div class="stat-icon success">
+          <ion-icon name="checkmark-circle"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ contarProductosEnStock() }}</span>
+          <span class="stat-label">En Stock</span>
+        </div>
+      </div>
+      
+      <div class="stat-item">
+        <div class="stat-icon warning">
+          <ion-icon name="alert-circle"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <span class="stat-value">{{ contarProductosStockBajo() }}</span>
+          <span class="stat-label">Stock Bajo</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="controls-section">
+      <!-- Vista Grid/Lista -->
+      <div class="view-switcher">
+        <button 
+          [class.active]="vistaActual === 'grid'"
+          (click)="cambiarVista('grid')"
+          class="view-btn">
+          <ion-icon name="apps-outline"></ion-icon>
+        </button>
+        <button 
+          [class.active]="vistaActual === 'list'"
+          (click)="cambiarVista('list')"
+          class="view-btn">
+          <ion-icon name="list-outline"></ion-icon>
+        </button>
+      </div>
+      
+      <!-- Ordenamiento -->
+      <select 
+        [(ngModel)]="ordenActual" 
+        (change)="ordenarProductos()"
+        class="sort-select">
+        <option value="nombre-asc">A - Z</option>
+        <option value="nombre-desc">Z - A</option>
+        <option value="precio-asc">Precio ↑</option>
+        <option value="precio-desc">Precio ↓</option>
+        <option value="stock-asc">Stock ↑</option>
+        <option value="stock-desc">Stock ↓</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Filtros de categorías -->
+  <div class="category-filter" *ngIf="categorias.length > 0 && (productosFiltrados.length > 0 || terminoBusqueda)">
+    <div class="category-scroll">
+      <button 
+        [class.active]="categoriaSeleccionada === ''"
+        (click)="filtrarPorCategoria('')"
+        class="category-chip">
+        <ion-icon name="apps-outline"></ion-icon>
+        <span>Todas</span>
+      </button>
+      <button 
+        *ngFor="let cat of categorias"
+        [class.active]="categoriaSeleccionada === cat"
+        (click)="filtrarPorCategoria(cat)"
+        class="category-chip">
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <span>{{ cat }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- Empty State Mejorado -->
+    <div *ngIf="productosFiltrados.length === 0 && !terminoBusqueda" class="empty-state">
+      <div class="empty-illustration">
+        <div class="empty-circle circle-1"></div>
+        <div class="empty-circle circle-2"></div>
+        <div class="empty-circle circle-3"></div>
+        <ion-icon name="cube-outline"></ion-icon>
+      </div>
+      
+      <h2>Sin productos registrados</h2>
+      <p>Comienza agregando tu primer producto al inventario</p>
+      
+      <button (click)="nuevoProducto()" class="empty-action-btn">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        <span>Agregar Primer Producto</span>
+      </button>
+    </div>
+
+    <!-- Estado de búsqueda sin resultados -->
+    <div *ngIf="productosFiltrados.length === 0 && terminoBusqueda" class="empty-state">
+      <div class="empty-illustration">
+        <div class="empty-circle circle-1"></div>
+        <div class="empty-circle circle-2"></div>
+        <div class="empty-circle circle-3"></div>
+        <ion-icon name="search-outline"></ion-icon>
+      </div>
+      
+      <h2>Sin resultados</h2>
+      <p>No encontramos productos que coincidan con <strong>"{{ terminoBusqueda }}"</strong></p>
+      
+      <button (click)="limpiarBusqueda()" class="empty-action-btn secondary">
+        <ion-icon name="close-circle-outline"></ion-icon>
+        <span>Limpiar Búsqueda</span>
+      </button>
+    </div>
+
+    <!-- Products Grid -->
+    <div 
+      *ngIf="productosFiltrados.length > 0" 
+      class="products-container"
+      [class.list-view]="vistaActual === 'list'">
+      
+      <div *ngFor="let producto of productosFiltrados; let i = index" 
+           class="product-card"
+           [style.animation-delay.s]="i * 0.05">
+        
+        <!-- Imagen del Producto -->
+        <div class="product-image">
+          <!-- Imagen principal de alta calidad -->
+          <img 
+            *ngIf="producto.tieneImagen && producto.imagen" 
+            [src]="producto.imagen" 
+            [alt]="producto.nombre"
+            loading="lazy"
+            class="product-img">
+          
+          <!-- Placeholder solo si NO hay imagen -->
+          <div class="image-placeholder" *ngIf="!producto.tieneImagen">
+            <ion-icon name="image-outline"></ion-icon>
+          </div>
+          
+          <!-- Badge de Stock -->
+          <div class="stock-badge" 
+               [attr.data-status]="producto.stock === 0 ? 'danger' : producto.stock < 10 ? 'warning' : 'success'">
+            <ion-icon [name]="producto.stock === 0 ? 'close-circle' : producto.stock < 10 ? 'alert-circle' : 'checkmark-circle'"></ion-icon>
+            <span>{{ producto.stock }} un.</span>
+          </div>
+        </div>
+
+        <!-- Contenido del Producto -->
+        <div class="product-content">
+          
+          <!-- Categoría -->
+          <span class="product-category">
+            <ion-icon name="pricetag-outline"></ion-icon>
+            {{ producto.categoria }}
+          </span>
+
+          <!-- Nombre -->
+          <h3 class="product-name">
+            {{ producto.nombre }}
+          </h3>
+
+          <!-- Descripción -->
+          <p class="product-description" *ngIf="producto.descripcion">
+            {{ producto.descripcion }}
+          </p>
+
+          <!-- Estado del Stock Mejorado -->
+          <div class="stock-status" 
+               [class.danger]="producto.stock === 0"
+               [class.warning]="producto.stock > 0 && producto.stock <= 10"
+               [class.success]="producto.stock > 10">
+            <ion-icon [name]="producto.stock === 0 ? 'close-circle' : producto.stock <= 10 ? 'alert-circle' : 'checkmark-circle'"></ion-icon>
+            <span>
+              {{ producto.stock === 0 ? 'SIN STOCK' : 
+                 producto.stock <= 10 ? 'STOCK BAJO' : 
+                 'STOCK DISPONIBLE' }}
+            </span>
+          </div>
+
+          <!-- Precio y Valor Total -->
+          <div class="product-meta">
+            <div class="meta-item price">
+              <span class="meta-label">Precio Unitario</span>
+              <span class="meta-value">S/ {{ producto.precio | number:'1.2-2' }}</span>
+            </div>
+            <div class="meta-item total-value">
+              <span class="meta-label">Valor Total</span>
+              <span class="meta-value">S/ {{ (producto.precio * producto.stock) | number:'1.2-2' }}</span>
+            </div>
+          </div>
+
+          <!-- Acciones (SOLO Editar y Eliminar) -->
+          <div class="product-actions">
+            <button class="action-btn secondary" (click)="editarProducto(producto.id!)">
+              <ion-icon name="create-outline"></ion-icon>
+              <span>Editar</span>
+            </button>
+            <button class="action-btn danger" (click)="eliminarProducto(producto.id!)">
+              <ion-icon name="trash-outline"></ion-icon>
+              <span>Eliminar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón Flotante Único - AJUSTADA POSICIÓN -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="nuevoProducto()" class="fab-add">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

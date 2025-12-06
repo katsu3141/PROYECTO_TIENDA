@@ -1,0 +1,118 @@
+<!-- src/app/pages/login/login.page.html -->
+<ion-content>
+  <!-- Animated Background -->
+  <div class="login-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="grid-pattern"></div>
+  </div>
+
+  <!-- Login Content -->
+  <div class="login-wrapper">
+    <!-- Logo/Brand Section -->
+    <div class="brand-section">
+      <div class="brand-icon">
+        <ion-icon name="storefront-outline"></ion-icon>
+      </div>
+      <h1 class="brand-title">
+        Taully Market
+        <span class="brand-subtitle">Sistema de Gestión Empresarial</span>
+      </h1>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card">
+      <div class="card-glow"></div>
+      
+      <div class="card-header">
+        <h2>Iniciar Sesión</h2>
+        <p>Ingresa tus credenciales para continuar</p>
+      </div>
+
+      <!-- REMOVIDO el <form> tag -->
+      <div class="login-form">
+        <!-- Username Field -->
+        <div class="form-group">
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <input
+              type="text"
+              [(ngModel)]="username"
+              placeholder="Usuario"
+              class="form-input"
+              autocomplete="username"
+              (keyup.enter)="login()"
+            />
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+            </div>
+            <input
+              type="password"
+              [(ngModel)]="password"
+              placeholder="Contraseña"
+              class="form-input"
+              autocomplete="current-password"
+              (keyup.enter)="login()"
+            />
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="errorMessage">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <!-- Login Button -->
+        <button type="button" class="btn-primary" (click)="login()">
+          <span>Ingresar al Sistema</span>
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>Cuentas de Prueba</span>
+      </div>
+
+      <!-- Quick Login Buttons -->
+      <div class="quick-login">
+        <button class="quick-btn admin" (click)="loginAdmin()">
+          <div class="quick-btn-content">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+            <div class="quick-btn-text">
+              <span class="role">Administrador</span>
+              <span class="credentials">admin / admin123</span>
+            </div>
+          </div>
+          <ion-icon name="arrow-forward-outline" class="arrow"></ion-icon>
+        </button>
+
+        <button class="quick-btn client" (click)="loginCliente()">
+          <div class="quick-btn-content">
+            <ion-icon name="person-circle-outline"></ion-icon>
+            <div class="quick-btn-text">
+              <span class="role">Cliente</span>
+              <span class="credentials">cliente / cliente123</span>
+            </div>
+          </div>
+          <ion-icon name="arrow-forward-outline" class="arrow"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p>© 2024 Taully Market E.I.R.L. - Todos los derechos reservados</p>
+    </div>
+  </div>
+</ion-content>

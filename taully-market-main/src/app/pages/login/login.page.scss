@@ -1,0 +1,636 @@
+// ===== VARIABLES (Misma paleta que Home) =====
+$bg-dark: #1a1a2e;
+$bg-card: #16213e;
+$bg-card-hover: #1f2b47;
+$text-primary: #e8eaf6;
+$text-secondary: #b8bcc8;
+$accent-blue: #0f4c75;
+$accent-cyan: #3282b8;
+$accent-teal: #00adb5;
+$accent-orange: #ff6b6b;
+$accent-purple: #6c5ce7;
+$accent-green: #00b894;
+
+// ===== MAIN LAYOUT =====
+ion-content {
+  --background: transparent;
+}
+
+.login-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, $accent-blue 0%, $accent-cyan 100%);
+  overflow: hidden;
+  z-index: 0;
+
+  .gradient-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.5;
+    animation: float-orb 20s ease-in-out infinite;
+
+    &.orb-1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 173, 181, 0.6) 0%, transparent 70%);
+      top: -250px;
+      right: -150px;
+      animation-delay: 0s;
+    }
+
+    &.orb-2 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(108, 92, 231, 0.5) 0%, transparent 70%);
+      bottom: -200px;
+      left: -150px;
+      animation-delay: 7s;
+    }
+
+    &.orb-3 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(50, 130, 184, 0.5) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 14s;
+    }
+  }
+
+  .grid-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      linear-gradient(rgba(232, 234, 246, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232, 234, 246, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-move 20s linear infinite;
+  }
+}
+
+.login-wrapper {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+// ===== BRAND SECTION =====
+.brand-section {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInDown 0.8s ease-out;
+
+  .brand-icon {
+    width: 90px;
+    height: 90px;
+    background: rgba(232, 234, 246, 0.15);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(232, 234, 246, 0.3);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    animation: scaleIn 0.8s ease-out 0.2s both;
+
+    ion-icon {
+      font-size: 3rem;
+      color: $text-primary;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+    }
+  }
+
+  .brand-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: $text-primary;
+    margin: 0;
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    line-height: 1.2;
+
+    .brand-subtitle {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $text-secondary;
+      margin-top: 0.5rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// ===== LOGIN CARD =====
+.login-card {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: rgba(22, 33, 62, 0.95);
+  backdrop-filter: blur(30px);
+  border: 2px solid rgba(232, 234, 246, 0.15);
+  border-radius: 32px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+  overflow: hidden;
+
+  .card-glow {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 173, 181, 0.2) 0%, transparent 70%);
+    filter: blur(60px);
+    pointer-events: none;
+  }
+
+  .card-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 2.5rem;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: $text-primary;
+      margin: 0 0 0.75rem 0;
+      letter-spacing: -0.02em;
+      text-shadow: 0 3px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    p {
+      font-size: 1rem;
+      color: $text-secondary;
+      margin: 0;
+      font-weight: 500;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+  }
+}
+
+// ===== FORM =====
+.login-form {
+  position: relative;
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: rgba(232, 234, 246, 0.08);
+      border: 2px solid rgba(232, 234, 246, 0.15);
+      border-radius: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+
+      &:hover {
+        background: rgba(232, 234, 246, 0.12);
+        border-color: rgba(232, 234, 246, 0.25);
+      }
+
+      &:focus-within {
+        background: rgba(232, 234, 246, 0.12);
+        border-color: $accent-teal;
+        box-shadow: 0 0 0 4px rgba(0, 173, 181, 0.15);
+      }
+
+      .input-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        flex-shrink: 0;
+
+        ion-icon {
+          font-size: 1.5rem;
+          color: $text-secondary;
+          transition: color 0.3s ease;
+        }
+      }
+
+      &:focus-within .input-icon ion-icon {
+        color: $accent-teal;
+      }
+
+      .form-input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 1rem 1rem 1rem 0;
+        font-size: 1rem;
+        color: $text-primary;
+        font-weight: 500;
+
+        &::placeholder {
+          color: rgba(184, 188, 200, 0.5);
+        }
+      }
+    }
+  }
+
+  .error-message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: rgba(255, 107, 107, 0.15);
+    border: 2px solid rgba(255, 107, 107, 0.3);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    animation: shake 0.5s ease-in-out;
+
+    ion-icon {
+      font-size: 1.5rem;
+      color: $accent-orange;
+      flex-shrink: 0;
+    }
+
+    span {
+      font-size: 0.95rem;
+      color: $text-primary;
+      font-weight: 600;
+    }
+  }
+
+  .btn-primary {
+    width: 100%;
+    background: linear-gradient(135deg, $accent-teal 0%, $accent-cyan 100%);
+    border: none;
+    border-radius: 16px;
+    padding: 1.25rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text-primary;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 24px rgba(0, 173, 181, 0.3);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(0, 173, 181, 0.4);
+
+      &::before {
+        left: 100%;
+      }
+
+      ion-icon {
+        transform: translateX(5px);
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 16px rgba(0, 173, 181, 0.3);
+    }
+
+    ion-icon {
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+  }
+}
+
+// ===== DIVIDER =====
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.5rem 0 2rem;
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(232, 234, 246, 0.2),
+      transparent
+    );
+  }
+
+  span {
+    font-size: 0.9rem;
+    color: $text-secondary;
+    font-weight: 600;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// ===== QUICK LOGIN BUTTONS =====
+.quick-login {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .quick-btn {
+    width: 100%;
+    background: rgba(232, 234, 246, 0.08);
+    border: 2px solid rgba(232, 234, 246, 0.15);
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: $accent-teal;
+      transform: scaleY(0);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .quick-btn-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      > ion-icon {
+        font-size: 2rem;
+        color: $text-secondary;
+        transition: all 0.3s ease;
+      }
+
+      .quick-btn-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+
+        .role {
+          font-size: 1rem;
+          font-weight: 700;
+          color: $text-primary;
+          letter-spacing: -0.01em;
+        }
+
+        .credentials {
+          font-size: 0.85rem;
+          color: $text-secondary;
+          font-weight: 500;
+          font-family: 'Courier New', monospace;
+        }
+      }
+    }
+
+    .arrow {
+      font-size: 1.5rem;
+      color: $text-secondary;
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      background: rgba(232, 234, 246, 0.12);
+      border-color: rgba(232, 234, 246, 0.25);
+      transform: translateX(5px);
+
+      &::before {
+        transform: scaleY(1);
+      }
+
+      .quick-btn-content > ion-icon {
+        color: $accent-teal;
+        transform: scale(1.1);
+      }
+
+      .arrow {
+        color: $accent-teal;
+        transform: translateX(5px);
+      }
+    }
+
+    &:active {
+      transform: translateX(2px);
+    }
+
+    &.admin:hover {
+      border-color: rgba(0, 184, 148, 0.4);
+      box-shadow: 0 4px 20px rgba(0, 184, 148, 0.2);
+
+      &::before {
+        background: $accent-green;
+      }
+
+      .quick-btn-content > ion-icon,
+      .arrow {
+        color: $accent-green;
+      }
+    }
+
+    &.client:hover {
+      border-color: rgba(108, 92, 231, 0.4);
+      box-shadow: 0 4px 20px rgba(108, 92, 231, 0.2);
+
+      &::before {
+        background: $accent-purple;
+      }
+
+      .quick-btn-content > ion-icon,
+      .arrow {
+        color: $accent-purple;
+      }
+    }
+  }
+}
+
+// ===== FOOTER =====
+.login-footer {
+  margin-top: 3rem;
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out 0.5s both;
+
+  p {
+    font-size: 0.85rem;
+    color: rgba(232, 234, 246, 0.6);
+    margin: 0;
+    font-weight: 500;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  }
+}
+
+// ===== ANIMATIONS =====
+@keyframes float-orb {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
+}
+
+@keyframes grid-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(50px);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+// ===== RESPONSIVE =====
+@media (max-width: 576px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .brand-section {
+    .brand-icon {
+      width: 70px;
+      height: 70px;
+
+      ion-icon {
+        font-size: 2.5rem;
+      }
+    }
+
+    .brand-title {
+      font-size: 2rem;
+
+      .brand-subtitle {
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .card-header {
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+
+  .quick-login .quick-btn {
+    padding: 1rem 1.25rem;
+
+    .quick-btn-content {
+      > ion-icon {
+        font-size: 1.75rem;
+      }
+
+      .quick-btn-text {
+        .role {
+          font-size: 0.95rem;
+        }
+
+        .credentials {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .login-wrapper {
+    padding: 1.5rem 1rem;
+  }
+
+  .brand-section {
+    margin-bottom: 2rem;
+  }
+
+  .login-card {
+    padding: 1.75rem 1.25rem;
+  }
+}

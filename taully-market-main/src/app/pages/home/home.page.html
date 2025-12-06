@@ -1,0 +1,276 @@
+<!-- src/app/pages/home/home.page.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      <div class="header-title">
+        <ion-icon name="storefront-outline"></ion-icon>
+        Taully Market - Dashboard
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Welcome Card con efectos -->
+  <ion-card class="welcome-card">
+    <div class="welcome-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+    </div>
+    <ion-card-content>
+      <div class="welcome-content">
+        <div class="user-icon-wrapper">
+          <ion-icon name="person-outline" class="user-icon"></ion-icon>
+        </div>
+        <div class="user-info">
+          <h2>Bienvenido, {{ currentUser?.nombre }}</h2>
+          <p>Rol: <strong>{{ currentUser?.rol === ROLES.ADMIN ? 'Administrador' : 'Cliente' }}</strong></p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Menú para ADMIN -->
+  <div *ngIf="isAdmin()">
+    <h3 class="section-title">Panel de Administración</h3>
+    
+    <!-- Stats Cards -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <ion-icon name="cube-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ totalProductos }}</div>
+          <div class="stat-label">Productos Totales</div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon success">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ totalProductos > 0 ? totalProductos : '0' }}</div>
+          <div class="stat-label">En Stock</div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon warning">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Stock Bajo</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Menu Cards -->
+    <ion-grid class="menu-grid">
+      <ion-row>
+        <ion-col size="12" size-md="6" size-lg="4">
+          <ion-card class="menu-card card-primary" (click)="navegarA('/productos')">
+            <div class="card-background"></div>
+            <div class="card-glow"></div>
+            <ion-card-content>
+              <div class="icon-wrapper">
+                <ion-icon name="cube-outline" class="menu-icon"></ion-icon>
+              </div>
+              <h3>Gestión de Productos</h3>
+              <p>{{ totalProductos }} productos registrados</p>
+              <div class="card-footer">
+                <span class="action-text">Ver productos</span>
+                <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="6" size-lg="4">
+          <ion-card class="menu-card card-warning" (click)="navegarA('/reportes')">
+            <div class="card-background"></div>
+            <div class="card-glow"></div>
+            <ion-card-content>
+              <div class="icon-wrapper">
+                <ion-icon name="analytics-outline" class="menu-icon"></ion-icon>
+              </div>
+              <h3>Reportes</h3>
+              <p>Análisis e informes detallados</p>
+              <div class="card-footer">
+                <span class="action-text">Ver reportes</span>
+                <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="6" size-lg="4">
+          <ion-card class="menu-card card-success" (click)="navegarA('/producto-form')">
+            <div class="card-background"></div>
+            <div class="card-glow"></div>
+            <ion-card-content>
+              <div class="icon-wrapper">
+                <ion-icon name="add-circle-outline" class="menu-icon"></ion-icon>
+              </div>
+              <h3>Nuevo Producto</h3>
+              <p>Agregar producto al inventario</p>
+              <div class="card-footer">
+                <span class="action-text">Crear producto</span>
+                <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Features Section -->
+    <div class="features-section">
+      <h3 class="section-title">Características del Sistema</h3>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+          </div>
+          <div class="feature-content">
+            <h4>Control Total</h4>
+            <p>Gestión completa de inventario</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <ion-icon name="notifications-outline"></ion-icon>
+          </div>
+          <div class="feature-content">
+            <h4>Alertas Automáticas</h4>
+            <p>Notificaciones de stock bajo</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <ion-icon name="search-outline"></ion-icon>
+          </div>
+          <div class="feature-content">
+            <h4>Búsqueda Rápida</h4>
+            <p>Encuentra productos al instante</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+          </div>
+          <div class="feature-content">
+            <h4>Seguridad</h4>
+            <p>Datos protegidos y encriptados</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menú para CLIENTE -->
+  <div *ngIf="isCliente()">
+    <h3 class="section-title">¿Qué deseas hacer?</h3>
+    
+    <!-- Stats Cards para Cliente -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <ion-icon name="cart-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ totalProductos }}</div>
+          <div class="stat-label">Productos Disponibles</div>
+        </div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon success">
+          <ion-icon name="bag-check-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Mis Pedidos</div>
+        </div>
+      </div>
+    </div>
+    
+    <ion-grid class="menu-grid">
+      <ion-row>
+        <ion-col size="12" size-md="6">
+          <ion-card class="menu-card card-primary" (click)="navegarA('/tienda')">
+            <div class="card-background"></div>
+            <div class="card-glow"></div>
+            <ion-card-content>
+              <div class="icon-wrapper">
+                <ion-icon name="cart-outline" class="menu-icon"></ion-icon>
+              </div>
+              <h3>Ir a la Tienda</h3>
+              <p>Explorar productos disponibles</p>
+              <div class="card-footer">
+                <span class="action-text">Ver tienda</span>
+                <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="12" size-md="6">
+          <ion-card class="menu-card card-success" (click)="navegarA('/pedidos')">
+            <div class="card-background"></div>
+            <div class="card-glow"></div>
+            <ion-card-content>
+              <div class="icon-wrapper">
+                <ion-icon name="receipt-outline" class="menu-icon"></ion-icon>
+              </div>
+              <h3>Mis Pedidos</h3>
+              <p>Historial de compras</p>
+              <div class="card-footer">
+                <span class="action-text">Ver pedidos</span>
+                <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Features para Cliente -->
+    <div class="features-section">
+      <h3 class="section-title">Ventajas de Comprar</h3>
+      
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <ion-icon name="flash-outline"></ion-icon>
+          </div>
+          <div class="feature-content">
+            <h4>Compra Rápida</h4>
+            <p>Proceso de compra simplificado</p>
+          </div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <ion-icon name="card-outline"></ion-icon>
+          </div>
+          <div class="feature-content">
+            <h4>Pago Seguro</h4>
+            <p>Transacciones protegidas</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,268 @@
+<!-- src/app/pages/reportes/reportes.page.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title">
+        <ion-icon name="analytics-outline"></ion-icon>
+        Reportes y Análisis
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="header-icon">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+      </div>
+      <h1>Dashboard de Análisis</h1>
+      <p>Métricas y estadísticas de tu inventario</p>
+    </div>
+
+    <!-- Métricas Principales -->
+    <div class="metrics-grid">
+      <div class="metric-card primary">
+        <div class="metric-icon">
+          <ion-icon name="cube-outline"></ion-icon>
+        </div>
+        <div class="metric-content">
+          <div class="metric-value">{{ totalProductos }}</div>
+          <div class="metric-label">Total Productos</div>
+          <div class="metric-change positive">
+            <ion-icon name="trending-up-outline"></ion-icon>
+            <span>Registrados</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card success">
+        <div class="metric-icon">
+          <ion-icon name="cash-outline"></ion-icon>
+        </div>
+        <div class="metric-content">
+          <div class="metric-value">S/ {{ valorTotalInventario | number:'1.2-2' }}</div>
+          <div class="metric-label">Valor Total</div>
+          <div class="metric-change">
+            <ion-icon name="wallet-outline"></ion-icon>
+            <span>Inventario</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card warning">
+        <div class="metric-icon">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+        </div>
+        <div class="metric-content">
+          <div class="metric-value">{{ productosStockBajo }}</div>
+          <div class="metric-label">Stock Bajo</div>
+          <div class="metric-change negative" *ngIf="productosStockBajo > 0">
+            <ion-icon name="warning-outline"></ion-icon>
+            <span>Requiere atención</span>
+          </div>
+          <div class="metric-change positive" *ngIf="productosStockBajo === 0">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <span>Todo bien</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="metric-card info">
+        <div class="metric-icon">
+          <ion-icon name="pricetag-outline"></ion-icon>
+        </div>
+        <div class="metric-content">
+          <div class="metric-value">{{ totalCategorias }}</div>
+          <div class="metric-label">Categorías</div>
+          <div class="metric-change">
+            <ion-icon name="apps-outline"></ion-icon>
+            <span>Activas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Análisis por Categoría -->
+    <div class="report-section">
+      <div class="section-header">
+        <div class="section-title">
+          <ion-icon name="pie-chart-outline"></ion-icon>
+          <h2>Análisis por Categoría</h2>
+        </div>
+        <div class="section-badge">
+          {{ analisisPorCategoria.length }} categorías
+        </div>
+      </div>
+
+      <div class="category-grid" *ngIf="analisisPorCategoria.length > 0; else noCategories">
+        <div class="category-card" *ngFor="let analisis of analisisPorCategoria; let i = index"
+             [style.animation-delay]="(i * 0.1) + 's'">
+          <div class="category-header">
+            <div class="category-icon" [attr.data-color]="getCategoryColor(analisis.categoria)">
+              <ion-icon name="pricetag-outline"></ion-icon>
+            </div>
+            <div class="category-info">
+              <h3>{{ analisis.categoria }}</h3>
+              <p>{{ analisis.totalProductos }} producto{{ analisis.totalProductos !== 1 ? 's' : '' }}</p>
+            </div>
+          </div>
+          <div class="category-stats">
+            <div class="stat-item">
+              <span class="stat-label">Valor Total</span>
+              <span class="stat-value">S/ {{ analisis.valorTotal | number:'1.2-2' }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Stock Total</span>
+              <span class="stat-value">{{ analisis.stockTotal }} unidades</span>
+            </div>
+          </div>
+          <div class="category-progress">
+            <div class="progress-bar">
+              <div class="progress-fill" 
+                   [style.width]="(analisis.valorTotal / valorTotalInventario * 100) + '%'"
+                   [attr.data-color]="getCategoryColor(analisis.categoria)"></div>
+            </div>
+            <span class="progress-label">{{ (analisis.valorTotal / valorTotalInventario * 100) | number:'1.1-1' }}% del total</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top 5 Productos -->
+    <div class="report-section">
+      <div class="section-header">
+        <div class="section-title">
+          <ion-icon name="trophy-outline"></ion-icon>
+          <h2>Top 5 Productos por Valor</h2>
+        </div>
+      </div>
+
+      <div class="ranking-list" *ngIf="top5Productos.length > 0; else noProducts">
+        <div class="ranking-item" *ngFor="let producto of top5Productos; let i = index"
+             [style.animation-delay]="(i * 0.1) + 's'">
+          <div class="ranking-position" [class.gold]="i === 0" [class.silver]="i === 1" [class.bronze]="i === 2">
+            <span>{{ i + 1 }}</span>
+          </div>
+          <div class="ranking-content">
+            <div class="ranking-info">
+              <h3>{{ producto.nombre }}</h3>
+              <p>{{ producto.categoria }}</p>
+            </div>
+            <div class="ranking-stats">
+              <div class="ranking-value">
+                <span class="label">Valor</span>
+                <span class="value">S/ {{ producto.valorInventario | number:'1.2-2' }}</span>
+              </div>
+              <div class="ranking-badge" [attr.data-position]="i + 1">
+                <ion-icon name="star-outline"></ion-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Productos con Stock Crítico -->
+    <div class="report-section" *ngIf="productosStockCritico.length > 0">
+      <div class="section-header">
+        <div class="section-title">
+          <ion-icon name="warning-outline"></ion-icon>
+          <h2>Productos con Stock Crítico</h2>
+        </div>
+        <div class="section-badge danger">
+          {{ productosStockCritico.length }} productos
+        </div>
+      </div>
+
+      <div class="alert-list">
+        <div class="alert-item" *ngFor="let producto of productosStockCritico; let i = index"
+             [style.animation-delay]="(i * 0.1) + 's'">
+          <div class="alert-icon">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+          </div>
+          <div class="alert-content">
+            <h3>{{ producto.nombre }}</h3>
+            <p>{{ producto.categoria }} • Stock: {{ producto.stock }} unidades</p>
+          </div>
+          <div class="alert-badge" [class.danger]="producto.stock === 0" [class.warning]="producto.stock > 0">
+            {{ producto.stock === 0 ? 'Sin Stock' : 'Stock Bajo' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumen General -->
+    <div class="report-section">
+      <div class="section-header">
+        <div class="section-title">
+          <ion-icon name="document-text-outline"></ion-icon>
+          <h2>Resumen General</h2>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-icon primary">
+            <ion-icon name="layers-outline"></ion-icon>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">Productos con Stock</span>
+            <span class="summary-value">{{ productosConStock }}</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon danger">
+            <ion-icon name="close-circle-outline"></ion-icon>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">Productos sin Stock</span>
+            <span class="summary-value">{{ productosSinStock }}</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon success">
+            <ion-icon name="trending-up-outline"></ion-icon>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">Valor Promedio</span>
+            <span class="summary-value">S/ {{ valorPromedio | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon info">
+            <ion-icon name="cube-outline"></ion-icon>
+          </div>
+          <div class="summary-content">
+            <span class="summary-label">Stock Total</span>
+            <span class="summary-value">{{ stockTotal }} unidades</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty States -->
+    <ng-template #noCategories>
+      <div class="empty-state-small">
+        <ion-icon name="pie-chart-outline"></ion-icon>
+        <p>No hay categorías registradas</p>
+      </div>
+    </ng-template>
+
+    <ng-template #noProducts>
+      <div class="empty-state-small">
+        <ion-icon name="cube-outline"></ion-icon>
+        <p>No hay productos registrados</p>
+      </div>
+    </ng-template>
+
+  </div>
+</ion-content>

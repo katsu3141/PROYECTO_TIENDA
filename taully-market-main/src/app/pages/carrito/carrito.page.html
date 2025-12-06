@@ -1,0 +1,161 @@
+<!-- src/app/pages/carrito/carrito.page.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title">
+        <ion-icon name="cart-outline"></ion-icon>
+        Carrito de Compras
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="limpiarCarrito()" *ngIf="carrito.length > 0">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <!-- 📊 RESUMEN SUPERIOR -->
+  <div class="cart-header" *ngIf="carrito.length > 0">
+    <div class="header-stats">
+      <div class="stat-item">
+        <ion-icon name="cube-outline"></ion-icon>
+        <span>{{ getTotalItems() }} productos</span>
+      </div>
+      <div class="stat-item">
+        <ion-icon name="cash-outline"></ion-icon>
+        <span>S/ {{ getTotalPrecio() | number:'1.2-2' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    
+    <!-- 🚫 ESTADO VACÍO -->
+    <div *ngIf="carrito.length === 0" class="empty-state">
+      <div class="empty-illustration">
+        <div class="empty-circle circle-1"></div>
+        <div class="empty-circle circle-2"></div>
+        <div class="empty-circle circle-3"></div>
+        <ion-icon name="cart-outline"></ion-icon>
+      </div>
+      
+      <h2>Tu carrito está vacío</h2>
+      <p>Explora nuestros productos y agrega lo que necesites</p>
+      
+      <button (click)="volver()" class="empty-action-btn">
+        <ion-icon name="storefront-outline"></ion-icon>
+        <span>Ir a la Tienda</span>
+      </button>
+    </div>
+
+    <!-- 🛒 LISTA DE PRODUCTOS -->
+    <div *ngIf="carrito.length > 0" class="cart-content">
+      
+      <!-- Items del Carrito -->
+      <div class="cart-items">
+        <div *ngFor="let item of carrito; let i = index" 
+             class="cart-item"
+             [style.animation-delay.s]="i * 0.05">
+          
+          <!-- Imagen del Producto -->
+          <div class="item-image">
+            <img 
+              *ngIf="item.producto.tieneImagen && item.producto.imagenThumbnail" 
+              [src]="item.producto.imagenThumbnail" 
+              [alt]="item.producto.nombre"
+              loading="lazy">
+            <div class="image-placeholder" *ngIf="!item.producto.tieneImagen">
+              <ion-icon name="image-outline"></ion-icon>
+            </div>
+          </div>
+
+          <!-- Info del Producto -->
+          <div class="item-info">
+            <h3 class="item-name">{{ item.producto.nombre }}</h3>
+            <p class="item-category">
+              <ion-icon name="pricetag-outline"></ion-icon>
+              {{ item.producto.categoria }}
+            </p>
+            <div class="item-price">
+              <span class="unit-price">S/ {{ item.producto.precio | number:'1.2-2' }}</span>
+              <span class="separator">×</span>
+              <span class="quantity">{{ item.cantidad }}</span>
+            </div>
+            <div class="item-stock" [class.warning]="item.producto.stock < 10">
+              <ion-icon [name]="item.producto.stock < 10 ? 'alert-circle' : 'checkmark-circle'"></ion-icon>
+              <span>{{ item.producto.stock }} disponibles</span>
+            </div>
+          </div>
+
+          <!-- Controles de Cantidad -->
+          <div class="item-controls">
+            <div class="quantity-controls">
+              <button 
+                class="qty-btn" 
+                (click)="decrementarCantidad(item)"
+                [disabled]="item.cantidad === 1">
+                <ion-icon name="remove"></ion-icon>
+              </button>
+              <span class="qty-value">{{ item.cantidad }}</span>
+              <button 
+                class="qty-btn" 
+                (click)="incrementarCantidad(item)"
+                [disabled]="item.cantidad >= item.producto.stock">
+                <ion-icon name="add"></ion-icon>
+              </button>
+            </div>
+            
+            <div class="item-subtotal">
+              S/ {{ (item.producto.precio * item.cantidad) | number:'1.2-2' }}
+            </div>
+            
+            <button class="delete-btn" (click)="eliminarProducto(item.producto.id!)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resumen de Compra -->
+      <div class="cart-summary">
+        <h3 class="summary-title">
+          <ion-icon name="receipt-outline"></ion-icon>
+          Resumen del Pedido
+        </h3>
+        
+        <div class="summary-details">
+          <div class="detail-row">
+            <span class="detail-label">Subtotal</span>
+            <span class="detail-value">S/ {{ getTotalPrecio() | number:'1.2-2' }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Envío</span>
+            <span class="detail-value free">Gratis</span>
+          </div>
+          <div class="detail-row total">
+            <span class="detail-label">Total</span>
+            <span class="detail-value">S/ {{ getTotalPrecio() | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <button class="checkout-btn" (click)="realizarPedido()">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          <span>Realizar Pedido</span>
+        </button>
+
+        <button class="continue-btn" (click)="volver()">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+          <span>Seguir Comprando</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>

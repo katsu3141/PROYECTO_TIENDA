@@ -1,0 +1,138 @@
+<!-- src/app/pages/pedidos/pedidos.page.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="volver()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="header-title">
+        <ion-icon name="receipt-outline"></ion-icon>
+        Mis Pedidos
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    
+    <!-- 🔄 ESTADO DE CARGA -->
+    <div *ngIf="cargando" class="loading-state">
+      <ion-icon name="time-outline"></ion-icon>
+      <p>Cargando pedidos...</p>
+    </div>
+
+    <!-- 🚫 ESTADO VACÍO -->
+    <div *ngIf="!cargando && pedidos.length === 0" class="empty-state">
+      <div class="empty-illustration">
+        <div class="empty-circle circle-1"></div>
+        <div class="empty-circle circle-2"></div>
+        <div class="empty-circle circle-3"></div>
+        <ion-icon name="receipt-outline"></ion-icon>
+      </div>
+      
+      <h2>No tienes pedidos aún</h2>
+      <p>Explora nuestra tienda y realiza tu primera compra</p>
+      
+      <button (click)="irATienda()" class="empty-action-btn">
+        <ion-icon name="cart-outline"></ion-icon>
+        <span>Ir a la Tienda</span>
+      </button>
+    </div>
+
+    <!-- 📦 LISTA DE PEDIDOS -->
+    <div *ngIf="!cargando && pedidos.length > 0" class="pedidos-list">
+      
+      <!-- Resumen Superior -->
+      <div class="pedidos-header">
+        <div class="header-stats">
+          <div class="stat-item">
+            <ion-icon name="receipt-outline"></ion-icon>
+            <span>{{ pedidos.length }} pedidos</span>
+          </div>
+          <div class="stat-item">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <span>Total gastado: S/ {{ getTotalGastado() | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cards de Pedidos -->
+      <div class="pedidos-cards">
+        <ion-card 
+          *ngFor="let pedido of pedidos; let i = index" 
+          class="pedido-card"
+          [style.animation-delay.s]="i * 0.05">
+          
+          <!-- Header del Pedido -->
+          <div class="pedido-header">
+            <div class="pedido-info">
+              <div class="pedido-id">
+                <ion-icon name="receipt-outline"></ion-icon>
+                <span>Pedido #{{ pedido.id }}</span>
+              </div>
+              <div class="pedido-fecha">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <span>{{ formatearFecha(pedido.fecha) }}</span>
+              </div>
+            </div>
+            <ion-badge [color]="getEstadoColor(pedido.estado)" class="estado-badge">
+              {{ pedido.estado }}
+            </ion-badge>
+          </div>
+
+          <ion-card-content>
+            <!-- Items del Pedido -->
+            <div class="pedido-items">
+              <div 
+                *ngFor="let item of pedido.items" 
+                class="pedido-item">
+                <div class="item-icon">
+                  <ion-icon name="cube-outline"></ion-icon>
+                </div>
+                <div class="item-info">
+                  <span class="item-nombre">{{ item.productoNombre }}</span>
+                  <span class="item-detalle">
+                    {{ item.cantidad }}x S/ {{ item.precioUnitario | number:'1.2-2' }}
+                  </span>
+                </div>
+                <div class="item-subtotal">
+                  S/ {{ item.subtotal | number:'1.2-2' }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Total -->
+            <div class="pedido-total">
+              <div class="total-label">
+                <ion-icon name="cash-outline"></ion-icon>
+                <span>Total del pedido</span>
+              </div>
+              <div class="total-value">
+                S/ {{ pedido.total | number:'1.2-2' }}
+              </div>
+            </div>
+
+            <!-- Stats del Pedido -->
+            <div class="pedido-stats">
+              <div class="stat">
+                <ion-icon name="cube-outline"></ion-icon>
+                <span>{{ getTotalItems(pedido) }} productos</span>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <!-- Botón para seguir comprando -->
+      <div class="action-footer">
+        <button (click)="irATienda()" class="continue-shopping-btn">
+          <ion-icon name="cart-outline"></ion-icon>
+          <span>Seguir Comprando</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ion-content>

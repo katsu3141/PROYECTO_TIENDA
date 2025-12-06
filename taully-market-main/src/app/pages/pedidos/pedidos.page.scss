@@ -1,0 +1,612 @@
+// src/app/pages/pedidos/pedidos.page.scss
+
+// ===== VARIABLES DE COLOR (TEMA OSCURO) =====
+$bg-dark: #1a1a2e;
+$bg-card: #16213e;
+$bg-card-hover: #1f2b47;
+$text-primary: #e8eaf6;
+$text-secondary: #b8bcc8;
+$accent-cyan: #3282b8;
+$accent-teal: #00adb5;
+$accent-orange: #ff6b6b;
+$accent-green: #00b894;
+$accent-purple: #6c5ce7;
+
+// ===== BACKGROUND GLOBAL =====
+ion-content {
+  --background: #{$bg-dark};
+}
+
+// ===== HEADER =====
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  
+  ion-icon {
+    font-size: 1.4rem;
+    color: white;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  }
+}
+
+// ===== CONTAINER =====
+.container {
+  padding: 2rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// ===== LOADING STATE =====
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  
+  ion-icon {
+    font-size: 4rem;
+    color: $accent-cyan;
+    animation: spin 2s linear infinite;
+  }
+  
+  p {
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: $text-secondary;
+    font-weight: 600;
+  }
+}
+
+// ===== EMPTY STATE =====
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 3rem 2rem;
+  
+  .empty-illustration {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 2rem;
+    
+    .empty-circle {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 3s ease-in-out infinite;
+      
+      &.circle-1 {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: linear-gradient(135deg, rgba(50, 130, 184, 0.15), rgba(15, 76, 117, 0.1));
+      }
+      
+      &.circle-2 {
+        width: 80%;
+        height: 80%;
+        top: 10%;
+        left: 10%;
+        animation-delay: 1s;
+        background: linear-gradient(135deg, rgba(0, 184, 148, 0.15), rgba(0, 173, 181, 0.1));
+      }
+      
+      &.circle-3 {
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
+        animation-delay: 2s;
+        background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(108, 92, 231, 0.1));
+      }
+    }
+    
+    ion-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
+      background: linear-gradient(135deg, $accent-cyan 0%, $accent-teal 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: pulse 2s ease-in-out infinite;
+    }
+  }
+  
+  h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: $text-primary;
+    margin: 0 0 1rem 0;
+  }
+  
+  p {
+    font-size: 1.05rem;
+    color: $text-secondary;
+    font-weight: 500;
+    margin: 0 0 2rem 0;
+    line-height: 1.6;
+  }
+  
+  .empty-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, $accent-cyan 0%, darken($accent-cyan, 10%) 100%);
+    color: $text-primary;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(50, 130, 184, 0.4);
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(50, 130, 184, 0.5);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+    
+    ion-icon {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+// ===== PEDIDOS HEADER =====
+.pedidos-header {
+  background: $bg-card;
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(232, 234, 246, 0.1);
+  animation: fadeInDown 0.6s ease-out;
+  
+  .header-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(232, 234, 246, 0.08);
+      border-radius: 12px;
+      border: 1px solid rgba(232, 234, 246, 0.15);
+      
+      ion-icon {
+        font-size: 1.5rem;
+        color: $accent-cyan;
+      }
+      
+      span {
+        font-size: 1rem;
+        font-weight: 700;
+        color: $text-primary;
+      }
+    }
+  }
+}
+
+// ===== PEDIDOS LIST =====
+.pedidos-list {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.pedidos-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+// ===== PEDIDO CARD =====
+.pedido-card {
+  background: $bg-card;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border: 2px solid transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.6s ease-out both;
+  margin: 0;
+  
+  &:hover {
+    border-color: rgba(50, 130, 184, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    background: $bg-card-hover;
+    transform: translateY(-2px);
+  }
+  
+  .pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 2px solid rgba(232, 234, 246, 0.1);
+    
+    .pedido-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      
+      .pedido-id {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.2rem;
+        font-weight: 800;
+        color: $text-primary;
+        
+        ion-icon {
+          font-size: 1.3rem;
+          color: $accent-cyan;
+        }
+      }
+      
+      .pedido-fecha {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+        color: $text-secondary;
+        
+        ion-icon {
+          font-size: 0.9rem;
+          color: $accent-teal;
+        }
+      }
+    }
+    
+    .estado-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+  ion-card-content {
+    padding: 1.5rem;
+    
+    .pedido-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      
+      .pedido-item {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 1rem;
+        align-items: center;
+        padding: 1rem;
+        background: rgba(232, 234, 246, 0.05);
+        border-radius: 12px;
+        border: 1px solid rgba(232, 234, 246, 0.1);
+        transition: all 0.3s ease;
+        
+        &:hover {
+          background: rgba(232, 234, 246, 0.08);
+          border-color: rgba(232, 234, 246, 0.2);
+        }
+        
+        .item-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          background: rgba(50, 130, 184, 0.15);
+          border-radius: 10px;
+          
+          ion-icon {
+            font-size: 1.3rem;
+            color: $accent-cyan;
+          }
+        }
+        
+        .item-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          
+          .item-nombre {
+            font-size: 1rem;
+            font-weight: 700;
+            color: $text-primary;
+          }
+          
+          .item-detalle {
+            font-size: 0.85rem;
+            color: $text-secondary;
+            font-weight: 500;
+          }
+        }
+        
+        .item-subtotal {
+          font-size: 1.1rem;
+          font-weight: 800;
+          color: $accent-cyan;
+          text-align: right;
+        }
+      }
+    }
+    
+    .pedido-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem;
+      background: rgba(0, 173, 181, 0.1);
+      border-radius: 12px;
+      border: 2px solid rgba(0, 173, 181, 0.2);
+      margin-bottom: 1rem;
+      
+      .total-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: $text-primary;
+        
+        ion-icon {
+          font-size: 1.3rem;
+          color: $accent-teal;
+        }
+      }
+      
+      .total-value {
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, $accent-cyan 0%, $accent-teal 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+    
+    .pedido-stats {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      
+      .stat {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        color: $text-secondary;
+        font-weight: 600;
+        
+        ion-icon {
+          font-size: 1rem;
+          color: $accent-teal;
+        }
+      }
+    }
+  }
+}
+
+// ===== ACTION FOOTER =====
+.action-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  
+  .continue-shopping-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, $accent-cyan 0%, darken($accent-cyan, 10%) 100%);
+    color: $text-primary;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px rgba(50, 130, 184, 0.4);
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(50, 130, 184, 0.5);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+    
+    ion-icon {
+      font-size: 1.4rem;
+    }
+  }
+}
+
+// ===== ANIMACIONES =====
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.05);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// ===== RESPONSIVE =====
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .pedidos-header .header-stats {
+    flex-direction: column;
+    gap: 1rem;
+    
+    .stat-item {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  .pedido-card {
+    .pedido-header {
+      flex-direction: column;
+      gap: 1rem;
+      
+      .estado-badge {
+        align-self: flex-start;
+      }
+    }
+    
+    ion-card-content {
+      .pedido-item {
+        grid-template-columns: auto 1fr;
+        
+        .item-subtotal {
+          grid-column: 2 / 3;
+          text-align: left;
+          margin-top: 0.5rem;
+        }
+      }
+      
+      .pedido-total {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem 0.75rem;
+  }
+  
+  .pedido-card {
+    .pedido-header {
+      padding: 1rem;
+      
+      .pedido-info {
+        .pedido-id {
+          font-size: 1rem;
+        }
+        
+        .pedido-fecha {
+          font-size: 0.8rem;
+        }
+      }
+    }
+    
+    ion-card-content {
+      padding: 1rem;
+      
+      .pedido-item {
+        padding: 0.75rem;
+        
+        .item-icon {
+          width: 35px;
+          height: 35px;
+          
+          ion-icon {
+            font-size: 1.1rem;
+          }
+        }
+        
+        .item-info {
+          .item-nombre {
+            font-size: 0.9rem;
+          }
+          
+          .item-detalle {
+            font-size: 0.8rem;
+          }
+        }
+        
+        .item-subtotal {
+          font-size: 1rem;
+        }
+      }
+      
+      .pedido-total {
+        padding: 1rem;
+        
+        .total-label {
+          font-size: 1rem;
+          
+          ion-icon {
+            font-size: 1.1rem;
+          }
+        }
+        
+        .total-value {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
