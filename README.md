@@ -3,7 +3,7 @@
 Este es el repositorio del proyecto final de tienda desarrollado por katsu3141.
 
 ## 🎯 Descripción del Proyecto
-[Escribe aquí una breve descripción del propósito de tu tienda, por ejemplo: una aplicación de comercio electrónico para gestionar inventario, ventas y reportes.]
+Aplicacion hibrida para gestionar inventarios, realizar pedidos con vista cliente / administrador
 
 ## 🛠️ Tecnologías Utilizadas
 * Angular / Ionic / Ts
