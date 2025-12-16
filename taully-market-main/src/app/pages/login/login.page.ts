@@ -1,9 +1,11 @@
+// src/app/pages/login/login.page.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-  IonContent, IonIcon, IonHeader } from '@ionic/angular/standalone';
+  IonContent, IonIcon, IonHeader
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { 
   personOutline, 
@@ -12,7 +14,8 @@ import {
   arrowForwardOutline,
   alertCircleOutline,
   shieldCheckmarkOutline,
-  personCircleOutline
+  personCircleOutline,
+  personAddOutline
 } from 'ionicons/icons';
 import { AuthService } from '../../services/auth.service';
 
@@ -21,7 +24,8 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonHeader, 
+  imports: [
+    IonHeader, 
     CommonModule,
     FormsModule,
     IonContent,
@@ -44,11 +48,12 @@ export class LoginPage {
       arrowForwardOutline,
       alertCircleOutline,
       shieldCheckmarkOutline,
-      personCircleOutline
+      personCircleOutline,
+      personAddOutline
     });
   }
 
-  login() {
+  async login() {
     this.errorMessage = '';
 
     if (!this.username || !this.password) {
@@ -56,7 +61,7 @@ export class LoginPage {
       return;
     }
 
-    const success = this.authService.login(this.username, this.password);
+    const success = await this.authService.login(this.username, this.password);
 
     if (!success) {
       this.errorMessage = 'Usuario o contraseña incorrectos';
@@ -73,5 +78,9 @@ export class LoginPage {
     this.username = 'cliente';
     this.password = 'cliente123';
     this.login();
+  }
+
+  irARegistro() {
+    this.router.navigate(['/registro']);
   }
 }

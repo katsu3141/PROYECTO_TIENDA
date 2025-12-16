@@ -1,3 +1,4 @@
+// src/app/models/usuario.model.ts
 export interface Usuario {
   id?: number;
   username: string;

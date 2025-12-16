@@ -6,14 +6,19 @@ import {
   IonHeader, IonToolbar, IonTitle, IonContent,
   IonButton, IonCard, IonCardHeader, IonCardTitle,
   IonCardContent, IonGrid, IonRow, IonCol,
-  IonIcon, IonSearchbar, IonBadge, IonButtons, IonFab, IonFabButton
+  IonIcon, IonSearchbar, IonBadge, IonButtons, IonFab, IonFabButton,
+  // 🏠 NUEVA IMPORTACIÓN: IonBackButton para el botón de Home
+  IonBackButton
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { 
   cartOutline, searchOutline, storefrontOutline, 
   cart, pricetag, apps, imageOutline, checkmarkCircle,
   alertCircle, closeCircle, pricetagOutline, add, remove,
-  arrowForward, closeCircleOutline, logOutOutline, appsOutline } from 'ionicons/icons';
+  arrowForward, closeCircleOutline, logOutOutline, appsOutline,
+  // 🏠 NUEVO ICONO: homeOutline
+  homeOutline 
+} from 'ionicons/icons';
 import { DatabaseService } from '../../services/database.service';
 import { Producto } from '../../models/producto.model';
 import { CarritoService } from '../../services/carrito.service';
@@ -30,7 +35,9 @@ import { Subscription } from 'rxjs';
     IonHeader, IonToolbar, IonTitle, IonContent,
     IonButton, IonCard, IonCardHeader, IonCardTitle,
     IonCardContent, IonGrid, IonRow, IonCol,
-    IonIcon, IonSearchbar, IonBadge, IonButtons, IonFab, IonFabButton
+    IonIcon, IonSearchbar, IonBadge, IonButtons, IonFab, IonFabButton,
+    // 🏠 NUEVA IMPORTACIÓN: Añadir IonBackButton
+    IonBackButton
   ]
 })
 export class TiendaPage implements OnInit, OnDestroy {
@@ -51,7 +58,9 @@ export class TiendaPage implements OnInit, OnDestroy {
     private carritoService: CarritoService,
     private router: Router
   ) {
-    addIcons({storefrontOutline,logOutOutline,cartOutline,closeCircleOutline,appsOutline,pricetagOutline,remove,add,cart,searchOutline,pricetag,apps,imageOutline,checkmarkCircle,alertCircle,closeCircle,arrowForward});
+    addIcons({storefrontOutline,logOutOutline,cartOutline,closeCircleOutline,appsOutline,pricetagOutline,remove,add,cart,searchOutline,pricetag,apps,imageOutline,checkmarkCircle,alertCircle,closeCircle,arrowForward,
+      // 🏠 NUEVO ICONO: homeOutline
+      homeOutline});
   }
 
   async ngOnInit() {

@@ -1,6 +1,14 @@
-<!-- src/app/pages/tienda/tienda.page.html -->
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    
+    <ion-buttons slot="start">
+      <ion-back-button 
+        defaultHref="/home" 
+        text="Home"
+        icon="home-outline">
+      </ion-back-button>
+    </ion-buttons>
+
     <ion-title>
       <div class="header-title">
         <ion-icon name="storefront-outline"></ion-icon>
@@ -17,7 +25,6 @@
     </ion-buttons>
   </ion-toolbar>
   
-  <!-- 🔍 BARRA DE BÚSQUEDA -->
   <ion-toolbar class="search-toolbar">
     <ion-searchbar 
       placeholder="Buscar productos..." 
@@ -32,7 +39,6 @@
 
 <ion-content [fullscreen]="true">
   
-  <!-- 🏷️ FILTRO DE CATEGORÍAS -->
   <div class="category-filter" *ngIf="categorias.length > 0">
     <div class="category-scroll">
       <button 
@@ -53,7 +59,6 @@
     </div>
   </div>
 
-  <!-- 📊 RESUMEN DE COMPRA (si hay items en carrito) -->
   <div class="cart-summary" *ngIf="getTotalCarrito() > 0">
     <div class="summary-content">
       <div class="summary-icon">
@@ -72,7 +77,6 @@
 
   <div class="container">
     
-    <!-- 🚫 ESTADO VACÍO -->
     <div *ngIf="productosFiltrados.length === 0 && !cargando" class="empty-state">
       <div class="empty-illustration">
         <div class="empty-circle circle-1"></div>
@@ -102,13 +106,11 @@
       </button>
     </div>
 
-    <!-- 🛍️ GRID DE PRODUCTOS -->
     <div *ngIf="productosFiltrados.length > 0 && !cargando" class="products-grid">
       <div *ngFor="let producto of productosFiltrados; let i = index" 
            class="product-card"
            [style.animation-delay.s]="i * 0.05">
         
-        <!-- 🖼️ IMAGEN DEL PRODUCTO -->
         <div class="product-image">
           <img 
             *ngIf="producto.tieneImagen && producto.imagenThumbnail" 
@@ -121,39 +123,32 @@
             <ion-icon name="image-outline"></ion-icon>
           </div>
           
-          <!-- 🏷️ Badge de Stock -->
           <div class="stock-badge" 
                [attr.data-status]="producto.stock === 0 ? 'danger' : producto.stock < 10 ? 'warning' : 'success'">
             <ion-icon [name]="producto.stock === 0 ? 'close-circle' : producto.stock < 10 ? 'alert-circle' : 'checkmark-circle'"></ion-icon>
             <span>{{ producto.stock > 0 ? producto.stock + ' disponibles' : 'Agotado' }}</span>
           </div>
 
-          <!-- 💰 Badge de Precio -->
           <div class="price-badge">
             S/ {{ producto.precio | number:'1.2-2' }}
           </div>
         </div>
 
-        <!-- 📄 CONTENIDO DEL PRODUCTO -->
         <div class="product-content">
           
-          <!-- Categoría -->
           <span class="product-category">
             <ion-icon name="pricetag-outline"></ion-icon>
             {{ producto.categoria }}
           </span>
 
-          <!-- Nombre -->
           <h3 class="product-name">
             {{ producto.nombre }}
           </h3>
 
-          <!-- Descripción -->
           <p class="product-description" *ngIf="producto.descripcion">
             {{ producto.descripcion }}
           </p>
 
-          <!-- Controles de Cantidad y Agregar -->
           <div class="product-actions">
             <div class="quantity-controls" *ngIf="producto.stock > 0">
               <button 
@@ -184,7 +179,6 @@
       </div>
     </div>
     
-    <!-- ⏳ ESTADO DE CARGA -->
     <div *ngIf="cargando" class="products-grid">
       <div *ngFor="let i of [1,2,3,4,5,6]" class="product-card skeleton">
         <div class="product-image"></div>
@@ -198,7 +192,6 @@
     
   </div>
 
-  <!-- 🛒 BOTÓN FLOTANTE CARRITO -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="getTotalCarrito() > 0">
     <ion-fab-button (click)="irACarrito()" class="fab-cart">
       <ion-icon name="cart"></ion-icon>

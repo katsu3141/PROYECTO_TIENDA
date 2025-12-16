@@ -1,0 +1,190 @@
+<!-- src/app/pages/registro/registro.page.html -->
+<ion-content>
+  <!-- Animated Background -->
+  <div class="registro-background">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+    <div class="grid-pattern"></div>
+  </div>
+
+  <!-- Registro Content -->
+  <div class="registro-wrapper">
+    
+    <!-- Botón Volver -->
+    <button class="back-button" (click)="volverLogin()">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+      <span>Volver al Login</span>
+    </button>
+
+    <!-- Registro Card -->
+    <div class="registro-card">
+      <div class="card-glow"></div>
+      
+      <div class="card-header">
+        <div class="header-icon">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+        <h2>Crear Cuenta</h2>
+        <p>Completa el formulario para registrarte</p>
+      </div>
+
+      <!-- Formulario de Registro -->
+      <div class="registro-form">
+        
+        <!-- Username -->
+        <div class="form-group">
+          <label class="form-label">Usuario *</label>
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <input
+              type="text"
+              [(ngModel)]="username"
+              placeholder="Elige un nombre de usuario"
+              class="form-input"
+              autocomplete="username"
+              maxlength="30"
+            />
+          </div>
+        </div>
+
+        <!-- Nombre Completo -->
+        <div class="form-group">
+          <label class="form-label">Nombre Completo *</label>
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <input
+              type="text"
+              [(ngModel)]="nombre"
+              placeholder="Tu nombre completo"
+              class="form-input"
+              autocomplete="name"
+            />
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label">Correo Electrónico *</label>
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              placeholder="correo@ejemplo.com"
+              class="form-input"
+              autocomplete="email"
+            />
+          </div>
+        </div>
+
+        <!-- Teléfono (Opcional) -->
+        <div class="form-group">
+          <label class="form-label">Teléfono <span class="optional">(opcional)</span></label>
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="call-outline"></ion-icon>
+            </div>
+            <input
+              type="tel"
+              [(ngModel)]="telefono"
+              placeholder="987654321"
+              class="form-input"
+              autocomplete="tel"
+              maxlength="15"
+            />
+          </div>
+        </div>
+
+        <!-- Dirección (Opcional) -->
+        <div class="form-group">
+          <label class="form-label">Dirección <span class="optional">(opcional)</span></label>
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="location-outline"></ion-icon>
+            </div>
+            <input
+              type="text"
+              [(ngModel)]="direccion"
+              placeholder="Av. Principal 123, Lima"
+              class="form-input"
+              autocomplete="street-address"
+            />
+          </div>
+        </div>
+
+        <!-- Contraseña -->
+        <div class="form-group">
+          <label class="form-label">Contraseña *</label>
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+            </div>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="password"
+              placeholder="Mínimo 6 caracteres"
+              class="form-input"
+              autocomplete="new-password"
+            />
+            <button 
+              type="button" 
+              class="toggle-password"
+              (click)="togglePasswordVisibility('password')">
+              <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </button>
+          </div>
+          <div class="password-hint">
+            Debe contener al menos 6 caracteres, una letra y un número
+          </div>
+        </div>
+
+        <!-- Confirmar Contraseña -->
+        <div class="form-group">
+          <label class="form-label">Confirmar Contraseña *</label>
+          <div class="input-wrapper">
+            <div class="input-icon">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+            </div>
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              [(ngModel)]="confirmPassword"
+              placeholder="Repite tu contraseña"
+              class="form-input"
+              autocomplete="new-password"
+            />
+            <button 
+              type="button" 
+              class="toggle-password"
+              (click)="togglePasswordVisibility('confirm')">
+              <ion-icon [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="errorMessage">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <!-- Registro Button -->
+        <button type="button" class="btn-primary" (click)="registrar()">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          <span>Crear Cuenta</span>
+        </button>
+
+        <!-- Link a Login -->
+        <div class="form-footer">
+          <p>¿Ya tienes cuenta? <a (click)="volverLogin()">Inicia Sesión</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

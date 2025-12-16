@@ -1,3 +1,5 @@
+// src/app/pages/reportes/reportes.page.scss
+
 // ===== VARIABLES DE COLOR (TEMA OSCURO) =====
 $bg-dark: #1a1a2e;
 $bg-card: #16213e;
@@ -23,7 +25,7 @@ ion-content {
   gap: 0.5rem;
   font-weight: 700;
   font-size: 1.15rem;
-  
+
   ion-icon {
     font-size: 1.4rem;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
@@ -49,7 +51,7 @@ ion-content {
   box-shadow: 0 8px 32px rgba(108, 92, 231, 0.4);
   overflow: hidden;
   animation: fadeInDown 0.6s ease-out;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -60,7 +62,7 @@ ion-content {
     background: radial-gradient(circle, rgba(232, 234, 246, 0.15) 0%, transparent 70%);
     animation: rotate 20s linear infinite;
   }
-  
+
   .header-icon {
     width: 80px;
     height: 80px;
@@ -75,14 +77,14 @@ ion-content {
     position: relative;
     z-index: 2;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    
+
     ion-icon {
       font-size: 2.8rem;
       color: $text-primary;
       filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.4));
     }
   }
-  
+
   h1 {
     font-size: 2rem;
     font-weight: 800;
@@ -92,7 +94,7 @@ ion-content {
     text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
     letter-spacing: -0.02em;
   }
-  
+
   p {
     font-size: 1.05rem;
     margin: 0;
@@ -110,7 +112,7 @@ ion-content {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2.5rem;
-  
+
   .metric-card {
     background: $bg-card;
     border-radius: 20px;
@@ -124,7 +126,7 @@ ion-content {
     animation: fadeInUp 0.6s ease-out both;
     position: relative;
     overflow: hidden;
-    
+
     &::before {
       content: '';
       position: absolute;
@@ -137,49 +139,49 @@ ion-content {
       opacity: 0.2;
       transition: all 0.4s ease;
     }
-    
+
     &:nth-child(1) { animation-delay: 0.1s; }
     &:nth-child(2) { animation-delay: 0.2s; }
     &:nth-child(3) { animation-delay: 0.3s; }
     &:nth-child(4) { animation-delay: 0.4s; }
-    
+
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-      
+
       &::before {
         opacity: 0.3;
       }
-      
+
       .metric-icon {
         transform: scale(1.1) rotate(5deg);
       }
     }
-    
+
     &.primary {
       border-color: rgba(50, 130, 184, 0.3);
       &::before { background: $accent-cyan; }
       .metric-icon { background: linear-gradient(135deg, $accent-cyan 0%, darken($accent-cyan, 10%) 100%); }
     }
-    
+
     &.success {
       border-color: rgba(0, 184, 148, 0.3);
       &::before { background: $accent-green; }
       .metric-icon { background: linear-gradient(135deg, $accent-green 0%, darken($accent-green, 10%) 100%); }
     }
-    
+
     &.warning {
       border-color: rgba(255, 107, 107, 0.3);
       &::before { background: $accent-orange; }
       .metric-icon { background: linear-gradient(135deg, $accent-orange 0%, darken($accent-orange, 10%) 100%); }
     }
-    
+
     &.info {
       border-color: rgba(108, 92, 231, 0.3);
       &::before { background: $accent-purple; }
       .metric-icon { background: linear-gradient(135deg, $accent-purple 0%, darken($accent-purple, 10%) 100%); }
     }
-    
+
     .metric-icon {
       width: 70px;
       height: 70px;
@@ -192,19 +194,19 @@ ion-content {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       z-index: 2;
-      
+
       ion-icon {
         font-size: 2.2rem;
         color: $text-primary;
         filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
       }
     }
-    
+
     .metric-content {
       flex: 1;
       position: relative;
       z-index: 2;
-      
+
       .metric-value {
         font-size: 2rem;
         font-weight: 800;
@@ -213,7 +215,7 @@ ion-content {
         margin-bottom: 0.5rem;
         text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       }
-      
+
       .metric-label {
         font-size: 0.9rem;
         color: $text-secondary;
@@ -222,7 +224,7 @@ ion-content {
         letter-spacing: 0.5px;
         margin-bottom: 0.5rem;
       }
-      
+
       .metric-change {
         display: flex;
         align-items: center;
@@ -230,16 +232,16 @@ ion-content {
         font-size: 0.85rem;
         font-weight: 600;
         color: $text-secondary;
-        
+
         ion-icon {
           font-size: 1rem;
         }
-        
+
         &.positive {
           color: $accent-green;
           ion-icon { color: $accent-green; }
         }
-        
+
         &.negative {
           color: $accent-orange;
           ion-icon { color: $accent-orange; }
@@ -253,7 +255,7 @@ ion-content {
 .report-section {
   margin-bottom: 2.5rem;
   animation: fadeInUp 0.6s ease-out;
-  
+
   .section-header {
     display: flex;
     justify-content: space-between;
@@ -261,18 +263,18 @@ ion-content {
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
     gap: 1rem;
-    
+
     .section-title {
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      
+
       ion-icon {
         font-size: 1.8rem;
         color: $accent-cyan;
         filter: drop-shadow(0 2px 6px rgba(50, 130, 184, 0.4));
       }
-      
+
       h2 {
         font-size: 1.6rem;
         font-weight: 800;
@@ -281,7 +283,7 @@ ion-content {
         text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
       }
     }
-    
+
     .section-badge {
       padding: 0.6rem 1.25rem;
       background: rgba(50, 130, 184, 0.2);
@@ -290,7 +292,7 @@ ion-content {
       font-size: 0.85rem;
       font-weight: 700;
       color: $accent-cyan;
-      
+
       &.danger {
         background: rgba(255, 107, 107, 0.2);
         border-color: rgba(255, 107, 107, 0.3);
@@ -305,7 +307,7 @@ ion-content {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
-  
+
   .category-card {
     background: $bg-card;
     border-radius: 20px;
@@ -314,19 +316,19 @@ ion-content {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     animation: fadeInUp 0.6s ease-out both;
-    
+
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
       border-color: rgba(50, 130, 184, 0.3);
     }
-    
+
     .category-header {
       display: flex;
       align-items: center;
       gap: 1rem;
       margin-bottom: 1.5rem;
-      
+
       .category-icon {
         width: 50px;
         height: 50px;
@@ -336,29 +338,29 @@ ion-content {
         justify-content: center;
         flex-shrink: 0;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        
+
         &[data-color="primary"] { background: linear-gradient(135deg, $accent-cyan 0%, darken($accent-cyan, 10%) 100%); }
         &[data-color="success"] { background: linear-gradient(135deg, $accent-green 0%, darken($accent-green, 10%) 100%); }
         &[data-color="warning"] { background: linear-gradient(135deg, $accent-orange 0%, darken($accent-orange, 10%) 100%); }
         &[data-color="purple"] { background: linear-gradient(135deg, $accent-purple 0%, darken($accent-purple, 10%) 100%); }
-        
+
         ion-icon {
           font-size: 1.5rem;
           color: $text-primary;
           filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
         }
       }
-      
+
       .category-info {
         flex: 1;
-        
+
         h3 {
           font-size: 1.2rem;
           font-weight: 800;
           color: $text-primary;
           margin: 0 0 0.25rem 0;
         }
-        
+
         p {
           font-size: 0.85rem;
           color: $text-secondary;
@@ -367,13 +369,13 @@ ion-content {
         }
       }
     }
-    
+
     .category-stats {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
       margin-bottom: 1.5rem;
-      
+
       .stat-item {
         display: flex;
         flex-direction: column;
@@ -381,7 +383,7 @@ ion-content {
         padding: 1rem;
         background: rgba(232, 234, 246, 0.05);
         border-radius: 12px;
-        
+
         .stat-label {
           font-size: 0.75rem;
           color: $text-secondary;
@@ -389,7 +391,7 @@ ion-content {
           text-transform: uppercase;
           letter-spacing: 0.5px;
         }
-        
+
         .stat-value {
           font-size: 1.1rem;
           font-weight: 800;
@@ -397,7 +399,7 @@ ion-content {
         }
       }
     }
-    
+
     .category-progress {
       .progress-bar {
         height: 8px;
@@ -405,19 +407,19 @@ ion-content {
         border-radius: 4px;
         overflow: hidden;
         margin-bottom: 0.5rem;
-        
+
         .progress-fill {
           height: 100%;
           border-radius: 4px;
           transition: width 1s ease-out;
-          
+
           &[data-color="primary"] { background: linear-gradient(90deg, $accent-cyan 0%, $accent-teal 100%); }
           &[data-color="success"] { background: linear-gradient(90deg, $accent-green 0%, darken($accent-green, 10%) 100%); }
           &[data-color="warning"] { background: linear-gradient(90deg, $accent-orange 0%, darken($accent-orange, 10%) 100%); }
           &[data-color="purple"] { background: linear-gradient(90deg, $accent-purple 0%, darken($accent-purple, 10%) 100%); }
         }
       }
-      
+
       .progress-label {
         font-size: 0.8rem;
         color: $text-secondary;
@@ -432,7 +434,7 @@ ion-content {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  
+
   .ranking-item {
     background: $bg-card;
     border-radius: 16px;
@@ -444,13 +446,13 @@ ion-content {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     animation: fadeInLeft 0.6s ease-out both;
-    
+
     &:hover {
       transform: translateX(8px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
       border-color: rgba(50, 130, 184, 0.3);
     }
-    
+
     .ranking-position {
       width: 50px;
       height: 50px;
@@ -464,40 +466,40 @@ ion-content {
       background: rgba(232, 234, 246, 0.1);
       color: $text-primary;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      
+
       &.gold {
         background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
         box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
       }
-      
+
       &.silver {
         background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%);
         box-shadow: 0 6px 20px rgba(192, 192, 192, 0.4);
       }
-      
+
       &.bronze {
         background: linear-gradient(135deg, #CD7F32 0%, #A0522D 100%);
         box-shadow: 0 6px 20px rgba(205, 127, 50, 0.4);
       }
     }
-    
+
     .ranking-content {
       flex: 1;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      
+
       .ranking-info {
         flex: 1;
-        
+
         h3 {
           font-size: 1.15rem;
           font-weight: 800;
           color: $text-primary;
           margin: 0 0 0.25rem 0;
         }
-        
+
         p {
           font-size: 0.85rem;
           color: $text-secondary;
@@ -505,31 +507,31 @@ ion-content {
           font-weight: 600;
         }
       }
-      
+
       .ranking-stats {
         display: flex;
         align-items: center;
         gap: 1rem;
-        
+
         .ranking-value {
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          
+
           .label {
             font-size: 0.75rem;
             color: $text-secondary;
             font-weight: 600;
             text-transform: uppercase;
           }
-          
+
           .value {
             font-size: 1.2rem;
             font-weight: 800;
             color: $accent-green;
           }
         }
-        
+
         .ranking-badge {
           width: 40px;
           height: 40px;
@@ -538,11 +540,11 @@ ion-content {
           align-items: center;
           justify-content: center;
           background: rgba(255, 215, 0, 0.2);
-          
+
           &[data-position="1"] { background: rgba(255, 215, 0, 0.2); }
           &[data-position="2"] { background: rgba(192, 192, 192, 0.2); }
           &[data-position="3"] { background: rgba(205, 127, 50, 0.2); }
-          
+
           ion-icon {
             font-size: 1.3rem;
             color: #FFD700;
@@ -558,7 +560,7 @@ ion-content {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  
+
   .alert-item {
     background: $bg-card;
     border-radius: 16px;
@@ -570,12 +572,12 @@ ion-content {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
     animation: fadeInUp 0.6s ease-out both;
-    
+
     &:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
     }
-    
+
     .alert-icon {
       width: 45px;
       height: 45px;
@@ -585,24 +587,24 @@ ion-content {
       justify-content: center;
       background: rgba(255, 107, 107, 0.2);
       flex-shrink: 0;
-      
+
       ion-icon {
         font-size: 1.5rem;
         color: $accent-orange;
         animation: pulse 2s ease-in-out infinite;
       }
     }
-    
+
     .alert-content {
       flex: 1;
-      
+
       h3 {
         font-size: 1.05rem;
         font-weight: 800;
         color: $text-primary;
         margin: 0 0 0.25rem 0;
       }
-      
+
       p {
         font-size: 0.85rem;
         color: $text-secondary;
@@ -610,18 +612,18 @@ ion-content {
         font-weight: 500;
       }
     }
-    
+
     .alert-badge {
       padding: 0.5rem 1rem;
       border-radius: 50px;
       font-size: 0.8rem;
       font-weight: 700;
-      
+
       &.danger {
         background: rgba(231, 76, 60, 0.2);
         color: #e74c3c;
       }
-      
+
       &.warning {
         background: rgba(255, 107, 107, 0.2);
         color: $accent-orange;
@@ -635,7 +637,7 @@ ion-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.25rem;
-  
+
   .summary-card {
     background: $bg-card;
     border-radius: 16px;
@@ -646,13 +648,13 @@ ion-content {
     border: 2px solid rgba(232, 234, 246, 0.1);
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    
+
     &:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
       border-color: rgba(50, 130, 184, 0.3);
     }
-    
+
     .summary-icon {
       width: 55px;
       height: 55px;
@@ -661,25 +663,25 @@ ion-content {
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      
+
       &.primary { background: linear-gradient(135deg, $accent-cyan 0%, darken($accent-cyan, 10%) 100%); }
       &.success { background: linear-gradient(135deg, $accent-green 0%, darken($accent-green, 10%) 100%); }
       &.danger { background: linear-gradient(135deg, #e74c3c 0%, darken(#e74c3c, 10%) 100%); }
       &.info { background: linear-gradient(135deg, $accent-purple 0%, darken($accent-purple, 10%) 100%); }
-      
+
       ion-icon {
         font-size: 1.6rem;
         color: $text-primary;
         filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
       }
     }
-    
+
     .summary-content {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
-      
+
       .summary-label {
         font-size: 0.8rem;
         color: $text-secondary;
@@ -687,7 +689,7 @@ ion-content {
         text-transform: uppercase;
         letter-spacing: 0.5px;
       }
-      
+
       .summary-value {
         font-size: 1.4rem;
         font-weight: 800;
@@ -704,19 +706,134 @@ ion-content {
   background: $bg-card;
   border-radius: 16px;
   border: 2px dashed rgba(232, 234, 246, 0.2);
-  
+
   ion-icon {
     font-size: 4rem;
     color: $text-secondary;
     opacity: 0.4;
     margin-bottom: 1rem;
   }
-  
+
   p {
     font-size: 1rem;
     color: $text-secondary;
     margin: 0;
     font-weight: 600;
+  }
+}
+
+// ===== ESTILOS PARA GRÁFICOS =====
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+
+  ion-spinner {
+    width: 50px;
+    height: 50px;
+    color: $accent-cyan;
+  }
+
+  p {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: $text-secondary;
+    font-weight: 600;
+  }
+}
+
+.export-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+
+  ion-button {
+    --border-radius: 12px;
+    --padding-top: 14px;
+    --padding-bottom: 14px;
+    font-weight: 700;
+    text-transform: none;
+  }
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+
+  .chart-card {
+    background: $bg-card;
+    border-radius: 20px;
+    padding: 2rem;
+    border: 2px solid rgba(232, 234, 246, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out both;
+
+    &.full-width {
+      grid-column: 1 / -1;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      border-color: rgba(50, 130, 184, 0.3);
+    }
+
+    .chart-header {
+      margin-bottom: 1.5rem;
+
+      h3 {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: $text-primary;
+        margin: 0 0 0.5rem 0;
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: $text-secondary;
+        margin: 0;
+        font-weight: 500;
+      }
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+
+      canvas {
+        max-height: 300px;
+      }
+    }
+  }
+}
+
+// Responsive para gráficos
+@media (max-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    .chart-card {
+      padding: 1.5rem;
+
+      .chart-container {
+        height: 250px;
+
+        canvas {
+          max-height: 250px;
+        }
+      }
+    }
+  }
+
+  .export-buttons {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -773,45 +890,45 @@ ion-content {
   .container {
     padding: 1rem;
   }
-  
+
   .page-header {
     padding: 2rem 1.5rem;
-    
+
     .header-icon {
       width: 70px;
       height: 70px;
-      
+
       ion-icon {
         font-size: 2.3rem;
       }
     }
-    
+
     h1 {
       font-size: 1.7rem;
     }
   }
-  
+
   .metrics-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .category-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .ranking-item {
     .ranking-content {
       flex-direction: column;
       align-items: flex-start;
-      
+
       .ranking-stats {
         width: 100%;
         justify-content: space-between;
       }
     }
   }
-  
+
   .summary-grid {
     grid-template-columns: 1fr;
   }
@@ -820,19 +937,19 @@ ion-content {
 @media (max-width: 480px) {
   .page-header {
     padding: 1.75rem 1.25rem;
-    
+
     h1 {
       font-size: 1.5rem;
     }
   }
-  
+
   .metrics-grid .metric-card {
     padding: 1.5rem;
-    
+
     .metric-icon {
       width: 60px;
       height: 60px;
-      
+
       ion-icon {
         font-size: 1.8rem;
       }

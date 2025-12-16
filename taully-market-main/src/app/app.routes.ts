@@ -69,7 +69,10 @@ export const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: [ROLES.CLIENTE] }
   },
-  
+{
+  path: 'registro',
+  loadComponent: () => import('./pages/registro/registro.page').then(m => m.RegistroPage)
+},
   // ==========================================
   // 🔀 RUTA 404
   // ==========================================

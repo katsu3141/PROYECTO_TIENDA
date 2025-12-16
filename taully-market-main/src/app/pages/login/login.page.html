@@ -8,12 +8,10 @@
     <div class="grid-pattern"></div>
   </div>
 
-  <!-- Login Content -->
-  <div class="login-wrapper">
-    <!-- Logo/Brand Section -->
+<div class="login-wrapper">
     <div class="brand-section">
-      <div class="brand-icon">
-        <ion-icon name="storefront-outline"></ion-icon>
+      <div class="brand-icon">  
+        <img src="assets/img/logo.png" alt="Taully Market Logo" class="custom-logo">
       </div>
       <h1 class="brand-title">
         Taully Market
@@ -30,7 +28,7 @@
         <p>Ingresa tus credenciales para continuar</p>
       </div>
 
-      <!-- REMOVIDO el <form> tag -->
+      <!-- Login Form -->
       <div class="login-form">
         <!-- Username Field -->
         <div class="form-group">
@@ -108,6 +106,18 @@
           <ion-icon name="arrow-forward-outline" class="arrow"></ion-icon>
         </button>
       </div>
+
+      <!-- Divider para Registro -->
+      <div class="divider" style="margin-top: 2rem;">
+        <span>¿No tienes cuenta?</span>
+      </div>
+
+      <!-- Botón de Registro -->
+      <button class="registro-btn" (click)="irARegistro()">
+        <ion-icon name="person-add-outline"></ion-icon>
+        <span>Crear Cuenta Nueva</span>
+        <ion-icon name="arrow-forward-outline" class="arrow"></ion-icon>
+      </button>
     </div>
 
     <!-- Footer -->

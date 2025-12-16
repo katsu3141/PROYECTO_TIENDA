@@ -39,38 +39,148 @@
   <div *ngIf="isAdmin()">
     <h3 class="section-title">Panel de Administración</h3>
     
-    <!-- Stats Cards -->
+    <!-- Stats Cards Mejoradas -->
     <div class="stats-container">
-      <div class="stat-card">
+      <!-- Total Productos -->
+      <div class="stat-card primary">
         <div class="stat-icon">
           <ion-icon name="cube-outline"></ion-icon>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ totalProductos }}</div>
           <div class="stat-label">Productos Totales</div>
+          <div class="stat-change positive">
+            <ion-icon name="trending-up-outline"></ion-icon>
+            <span>{{ productosConStock }} con stock</span>
+          </div>
         </div>
       </div>
       
-      <div class="stat-card">
-        <div class="stat-icon success">
-          <ion-icon name="checkmark-circle-outline"></ion-icon>
+      <!-- Valor del Inventario -->
+      <div class="stat-card success">
+        <div class="stat-icon">
+          <ion-icon name="cash-outline"></ion-icon>
         </div>
         <div class="stat-content">
-          <div class="stat-value">{{ totalProductos > 0 ? totalProductos : '0' }}</div>
-          <div class="stat-label">En Stock</div>
+          <div class="stat-value">S/ {{ valorInventario | number:'1.2-2' }}</div>
+          <div class="stat-label">Valor del Inventario</div>
+          <div class="stat-change">
+            <ion-icon name="trending-up-outline"></ion-icon>
+            <span>{{ stockTotal }} unidades</span>
+          </div>
         </div>
       </div>
       
-      <div class="stat-card">
-        <div class="stat-icon warning">
+      <!-- Stock Bajo -->
+      <div class="stat-card warning">
+        <div class="stat-icon">
           <ion-icon name="alert-circle-outline"></ion-icon>
         </div>
         <div class="stat-content">
-          <div class="stat-value">0</div>
+          <div class="stat-value">{{ stockBajo }}</div>
           <div class="stat-label">Stock Bajo</div>
+          <div class="stat-change negative" *ngIf="stockBajo > 0">
+            <ion-icon name="warning-outline"></ion-icon>
+            <span>Requiere reposición</span>
+          </div>
+          <div class="stat-change positive" *ngIf="stockBajo === 0">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <span>Todo bien</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stock Crítico -->
+      <div class="stat-card danger">
+        <div class="stat-icon">
+          <ion-icon name="warning-outline"></ion-icon>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value">{{ stockCritico }}</div>
+          <div class="stat-label">Stock Crítico</div>
+          <div class="stat-change negative" *ngIf="stockCritico > 0">
+            <ion-icon name="warning-outline"></ion-icon>
+            <span>Atención urgente</span>
+          </div>
+          <div class="stat-change positive" *ngIf="stockCritico === 0">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+            <span>Sin alertas</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Estado del Inventario -->
+    <ion-card class="inventory-status-card">
+      <ion-card-content>
+        <div class="status-header">
+          <div class="status-icon" [attr.data-estado]="estadoInventario">
+            <ion-icon name="analytics-outline"></ion-icon>
+          </div>
+          <div class="status-info">
+            <h3>Estado del Inventario</h3>
+            <p>{{ getEstadoTexto() }}</p>
+          </div>
+          <ion-badge [color]="getEstadoColor()" class="status-badge">
+            {{ porcentajeStockSaludable | number:'1.0-0' }}%
+          </ion-badge>
+        </div>
+        <ion-progress-bar 
+          [value]="porcentajeStockSaludable / 100" 
+          [color]="getEstadoColor()"
+          class="status-progress">
+        </ion-progress-bar>
+        <div class="status-details">
+          <div class="detail-item">
+            <span class="detail-label">Con Stock:</span>
+            <span class="detail-value success">{{ productosConStock }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Sin Stock:</span>
+            <span class="detail-value danger">{{ productosSinStock }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Stock Bajo:</span>
+            <span class="detail-value warning">{{ stockBajo }}</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Insights Rápidos -->
+    <ion-card class="insights-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="bulb-outline"></ion-icon>
+          Insights Rápidos
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="insights-grid">
+          <div class="insight-item">
+            <ion-icon name="pricetag-outline" color="primary"></ion-icon>
+            <div class="insight-content">
+              <span class="insight-label">Categoría Principal</span>
+              <span class="insight-value">{{ categoriaConMasProductos }}</span>
+            </div>
+          </div>
+          <div class="insight-item">
+            <ion-icon name="trending-up-outline" color="success"></ion-icon>
+            <div class="insight-content">
+              <span class="insight-label">Producto Más Caro</span>
+              <span class="insight-value">{{ productoMasCaro }}</span>
+            </div>
+          </div>
+          <div class="insight-item">
+            <ion-icon name="cube-outline" color="warning"></ion-icon>
+            <div class="insight-content">
+              <span class="insight-label">Stock Total</span>
+              <span class="insight-value">{{ stockTotal }} unidades</span>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
     
     <!-- Menu Cards -->
     <ion-grid class="menu-grid">
@@ -101,8 +211,8 @@
               <div class="icon-wrapper">
                 <ion-icon name="analytics-outline" class="menu-icon"></ion-icon>
               </div>
-              <h3>Reportes</h3>
-              <p>Análisis e informes detallados</p>
+              <h3>Reportes y Análisis</h3>
+              <p>Estadísticas detalladas con gráficos</p>
               <div class="card-footer">
                 <span class="action-text">Ver reportes</span>
                 <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
@@ -158,11 +268,11 @@
         
         <div class="feature-item">
           <div class="feature-icon">
-            <ion-icon name="search-outline"></ion-icon>
+            <ion-icon name="analytics-outline"></ion-icon>
           </div>
           <div class="feature-content">
-            <h4>Búsqueda Rápida</h4>
-            <p>Encuentra productos al instante</p>
+            <h4>Reportes Avanzados</h4>
+            <p>Gráficos y estadísticas detalladas</p>
           </div>
         </div>
         
@@ -267,7 +377,7 @@
           </div>
           <div class="feature-content">
             <h4>Pago Seguro</h4>
-            <p>Transacciones protegidas</p>
+            <p>Transacciones protegidas</p>a
           </div>
         </div>
       </div>

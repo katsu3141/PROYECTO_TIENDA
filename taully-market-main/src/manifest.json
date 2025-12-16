@@ -1,0 +1,9 @@
+{
+  "name": "Taully Market",
+  "short_name": "Taully",
+  "theme_color": "#0f4c75",
+  "background_color": "#1a1a2e",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/"
+}
